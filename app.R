@@ -2,6 +2,7 @@
 #pacotes
 #install.packages("leaflet")
 
+library(bslib)
 library(shiny)
 library(leaflet)
 
@@ -16,7 +17,7 @@ municipios <- data.frame(
 #ui
 ui <- navbarPage(
   title = "Gerenciamento de Resíduos Sólidos no ABC Paulista",
-  
+  theme = bs_theme(bootswatch = "minty", bg = "#f0f4f1", fg = "#1b3a1f"),
   #Texto de Apresentação do trabalho
   tabPanel(
     title = "Apresentação",
