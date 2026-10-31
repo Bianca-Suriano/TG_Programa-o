@@ -1,5 +1,8 @@
+####Pra publicar
+#setwd('C:/Users/bianc/OneDrive - Universidade Federal do ABC/TG_Programação')
+#rsconnect::writeManifest()
 
-se
+
 #pacotes
 #install.packages("leaflet")
 
