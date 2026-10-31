@@ -1,6 +1,6 @@
 ####Pra publicar
-setwd('C:/Users/bianc/OneDrive - Universidade Federal do ABC/TG_Programação')
-rsconnect::writeManifest()
+#setwd('C:/Users/bianc/OneDrive - Universidade Federal do ABC/TG_Programação')
+#rsconnect::writeManifest()
 
 
 #pacotes
@@ -27,7 +27,7 @@ municipios <- c("Santo André"           = 3547809,
                 "Mauá"                  = 3529401)
 
 lista <- lapply(seq_along(municipios), function(i) {
-  g <- read_municipality(code_muni = municipios[i], year = 2020)  # use o ano que funcionou
+  g <- read_municipality(code_muni = municipios[i], year = 2020)  
   g$name_muni <- names(municipios)[i]
   g[, c("code_muni", "name_muni")]
 })
