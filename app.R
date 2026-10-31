@@ -5,18 +5,38 @@
 
 #pacotes
 #install.packages("leaflet")
+#install.packages(c("geobr", "sf"))
+#install.packages(("arrow"))
+#install.packages("geobr")
 
-library(bslib)
-library(shiny)
+#Ativar pacotes
 library(leaflet)
+library(geobr)
+library(sf)
+library(arrow)
+library(bslib)
 
-# Pontos aproximados das sedes dos 7 municípios do Grande ABC
-municipios <- data.frame(
-  nome = c("Santo André", "São Bernardo do Campo", "São Caetano do Sul",
-           "Diadema", "Mauá", "Ribeirão Pires", "Rio Grande da Serra"),
-  lat  = c(-23.6639, -23.6914, -23.6229, -23.6861, -23.6677, -23.7106, -23.7439),
-  lng  = c(-46.5383, -46.5646, -46.5548, -46.6228, -46.4613, -46.4136, -46.3978)
-)
+#Mapa dos Municipios 
+
+options(timeout = 1200)
+
+municipios <- c("Santo André"           = 3547809,
+                "São Bernardo do Campo" = 3548708,
+                "São Caetano do Sul"    = 3548807,
+                "Mauá"                  = 3529401)
+
+lista <- lapply(seq_along(municipios), function(i) {
+  g <- read_municipality(code_muni = municipios[i], year = 2020)  # use o ano que funcionou
+  g$name_muni <- names(municipios)[i]
+  g[, c("code_muni", "name_muni")]
+})
+
+abc <- do.call(rbind, lista)
+abc <- st_transform(abc, 4326)
+
+nrow(abc)                # deve dar 4
+saveRDS(abc, "abc.rds")  # salva na pasta de trabalho (veja com getwd())
+
 
 #ui
 ui <- navbarPage(
@@ -69,10 +89,15 @@ ui <- navbarPage(
 # Server: a lógica (pode ficar vazio por enquanto)
 server <- function(input, output, session) {
   output$mapa_abc <- renderLeaflet({
-    leaflet(municipios) |>
+    pal <- colorFactor("Set2", abc$name_muni)
+    
+    leaflet(abc) |>
       addTiles() |>
-      setView(lng = -46.52, lat = -23.68, zoom = 11) |>
-      addMarkers(~lng, ~lat, popup = ~nome, label = ~nome)
+      addPolygons(label = ~name_muni,
+                  fillColor = ~pal(name_muni), fillOpacity = 0.5,
+                  color = "#333333", weight = 1.5,
+                  highlightOptions = highlightOptions(weight = 3, fillOpacity = 0.8)) |>
+      addLegend(pal = pal, values = ~name_muni, title = "Município")
   })
 }
 
