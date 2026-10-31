@@ -7,7 +7,7 @@
 #install.packages("leaflet")
 #install.packages(c("geobr", "sf"))
 #install.packages(("arrow"))
-#install.packages("geobr")
+install.packages("geobr")
 
 #Ativar pacotes
 library(leaflet)
