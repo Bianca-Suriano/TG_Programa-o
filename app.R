@@ -1,6 +1,6 @@
 ####Pra publicar
-#setwd('C:/Users/bianc/OneDrive - Universidade Federal do ABC/TG_Programação')
-#rsconnect::writeManifest()
+setwd('C:/Users/bianc/OneDrive - Universidade Federal do ABC/TG_Programação')
+rsconnect::writeManifest()
 
 
 #pacotes
@@ -80,7 +80,7 @@ ui <- navbarPage(
   tabPanel(title = "Valorização Energética"),
   tabPanel(
     title = "Caso de Estudo: o ABC Paulista",
-    h3("Municípios do Grande ABC"),
+    h3("Caso de Estudo"),
     leafletOutput("mapa_abc", height = 550)
   )
 )
